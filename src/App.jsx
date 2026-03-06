@@ -113,7 +113,7 @@ function App() {
             transition={pageTransition}
             style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
           >
-            <Message   imageUrl={imageUrl}
+            <Message   imageUrl={config.photo}
  onComplete={() => handleNextStage('proposal')} />
           </motion.div>
         )}
