@@ -137,22 +137,26 @@ const PuzzleComponent = ({ imageUrl, gridSize, name, onComplete }) => {
         
         {/* Full Image overlay when solved for a smooth transition */}
         <AnimatePresence>
-            {isSolved && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    style={{
-                        position: 'absolute',
-                        top: 8, left: 8, right: 8, bottom: 8,
-                        borderRadius: '8px',
-                        backgroundImage: `url(${imageUrl})`,
-                        backgroundSize: '100% 100%',
-                        zIndex: 10,
-                        boxShadow: '0 0 20px rgba(217, 70, 239, 0.5)'
-                    }}
-                />
-            )}
+          {isSolved && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                borderRadius: "16px",
+                backgroundImage: `url(${imageUrl})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                zIndex: 10,
+                boxShadow: "0 0 20px rgba(217, 70, 239, 0.5)"
+              }}
+            />
+          )}
         </AnimatePresence>
       </div>
       

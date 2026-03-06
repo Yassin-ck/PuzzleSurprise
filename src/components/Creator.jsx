@@ -3,16 +3,30 @@ import { motion } from "framer-motion";
 import { Copy, PlusCircle, Check, Mail, Link } from "lucide-react";
 import emailjs from "@emailjs/browser";
 
+const questionOptions = [
+  "Will you forever be mine?",
+  "Do you love me?",
+  "Will you be my girlfriend?",
+  "Will you marry me someday?",
+  "Do you want to spend your life with me?",
+  "Are you my soulmate?",
+  "Will you always stay with me?",
+  "Do you promise to love me forever?",
+  "Will you say YES to us?",
+  "Custom"
+];
+
 const Creator = () => {
 
   const [formData, setFormData] = useState({
-    name: "Sherin",
-    imageFile: null,
-    question: "Will you forever be mine?",
-    gridSize: 3,
-    shareMethod: "link",
-    email: ""
-  });
+  name: "",
+  imageFile: null,
+  question: "",
+  customQuestion: "",
+  gridSize: 3,
+  shareMethod: "link",
+  email: ""
+});
 
   const [generatedUrl, setGeneratedUrl] = useState("");
   const [copied, setCopied] = useState(false);
@@ -62,7 +76,12 @@ const Creator = () => {
         const params = new URLSearchParams();
         params.set("name", formData.name);
         params.set("photo", uploadedUrl);
-        params.set("question", formData.question);
+        const finalQuestion =
+        formData.question === "Custom"
+          ? formData.customQuestion
+          : formData.question;
+
+      params.set("question", finalQuestion);
         params.set("grid", formData.gridSize.toString());
 
         const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
@@ -175,13 +194,40 @@ const Creator = () => {
           <div>
             <label style={label}>Final Question</label>
 
+        <select
+          name="question"
+          value={formData.question}
+          onChange={handleChange}
+          style={inputStyle}
+        >
+          <option value="">Select a question</option>
+          {questionOptions.map((q, index) => (
+            <option key={index} value={q}>
+              {q}
+            </option>
+          ))}
+        </select>
+
+        {formData.question === "Custom" && (
+          <div style={{ marginTop: 8 }}>
+
             <input
               type="text"
-              name="question"
-              value={formData.question}
+              name="customQuestion"
+              placeholder="Type your question..."
+              value={formData.customQuestion}
               onChange={handleChange}
               style={inputStyle}
+              required
             />
+
+            <p style={{ fontSize: 12, color: "#666", marginTop: 4 }}>
+              ⚠️ Your question should be a <b>Yes / No question</b>.  
+              Example: "Will you be mine forever?"
+            </p>
+
+          </div>
+        )}  
           </div>
 
           {/* Share Method */}
