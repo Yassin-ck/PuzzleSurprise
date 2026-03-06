@@ -3,35 +3,35 @@ import { motion } from 'framer-motion';
 
 const Proposal = ({ question, onComplete }) => {
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
+  const [yesScale, setYesScale] = useState(1);
   const containerRef = useRef(null);
+
   
   // Evasion logic for the 'No' button
   const handleNoEvasion = () => {
-    if (!containerRef.current) return;
-    
-    // Get container dimensions to keep button within bounds
-    const container = containerRef.current.getBoundingClientRect();
-    const btnWidth = 100;
-    const btnHeight = 50;
+  if (!containerRef.current) return;
 
-    // Calculate a new random position relative to the container center (0,0 is center in motion.div x/y)
-    // We want it to jump at least 50px away, up to mostly the edges of the container.
-    const maxJumpX = container.width / 2 - btnWidth;
-    const maxJumpY = container.height / 2 - btnHeight;
-    
-    // Pick random quadrant
-    const xSign = Math.random() < 0.5 ? 1 : -1;
-    const ySign = Math.random() < 0.5 ? 1 : -1;
+  const container = containerRef.current.getBoundingClientRect();
+  const btnWidth = 100;
+  const btnHeight = 50;
 
-    // Ensure it jumps a decent amount
-    const jumpX = xSign * (Math.random() * (maxJumpX - 50) + 50);
-    const jumpY = ySign * (Math.random() * (maxJumpY - 50) + 50);
+  const maxJumpX = container.width / 2 - btnWidth;
+  const maxJumpY = container.height / 2 - btnHeight;
 
-    setNoButtonPosition({
-      x: jumpX,
-      y: jumpY
-    });
-  };
+  const xSign = Math.random() < 0.5 ? 1 : -1;
+  const ySign = Math.random() < 0.5 ? 1 : -1;
+
+  const jumpX = xSign * (Math.random() * (maxJumpX - 50) + 50);
+  const jumpY = ySign * (Math.random() * (maxJumpY - 50) + 50);
+
+  setNoButtonPosition({
+    x: jumpX,
+    y: jumpY
+  });
+
+  // Grow YES button every time NO is pressed
+  setYesScale((prev) => Math.min(prev + 0.15, 2.5));
+};
 
   return (
     <div ref={containerRef} style={{ 
@@ -65,8 +65,8 @@ const Proposal = ({ question, onComplete }) => {
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginTop: '1rem' }}>
              {/* The Yes Button */}
             <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
+                animate={{ scale: yesScale }}
+                whileTap={{ scale: yesScale * 0.9 }}
                 onClick={onComplete}
                 className="btn-primary"
                 style={{
