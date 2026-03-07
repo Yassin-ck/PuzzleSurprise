@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 
 const Proposal = ({ question, onComplete }) => {
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
-  const [yesScale, setYesScale] = useState(1);
   const containerRef = useRef(null);
 
   
@@ -29,8 +28,6 @@ const Proposal = ({ question, onComplete }) => {
     y: jumpY
   });
 
-  // Grow YES button every time NO is pressed
-  setYesScale((prev) => Math.min(prev + 0.15, 2.5));
 };
 
   return (
@@ -65,21 +62,21 @@ const Proposal = ({ question, onComplete }) => {
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginTop: '1rem' }}>
              {/* The Yes Button */}
             <motion.button
-                animate={{ scale: yesScale }}
-                whileTap={{ scale: yesScale * 0.9 }}
-                onClick={onComplete}
-                className="btn-primary"
-                style={{
-                   padding: '1rem 2.5rem',
-                   fontSize: '1.2rem',
-                   display: 'flex',
-                   alignItems: 'center',
-                   gap: '8px',
-                   zIndex: 10
-                }}
-            >
-                Yes <span>💖</span>
-            </motion.button>
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={onComplete}
+  className="btn-primary"
+  style={{
+    padding: '1rem 2.5rem',
+    fontSize: '1.2rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    zIndex: 10
+  }}
+>
+  Yes <span>💖</span>
+</motion.button>
 
             {/* The Evasive No Button */}
             <motion.button
